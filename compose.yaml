@@ -1,0 +1,46 @@
+# VisualDSA local stack — Postgres + pgAdmin. Run Prisma from the host: `pnpm db:push`.
+# Host DB URL: postgresql://visualdsa:visualdsa@localhost:5434/visualdsa
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: visualdsa_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: visualdsa
+      POSTGRES_PASSWORD: visualdsa
+      POSTGRES_DB: visualdsa
+    ports:
+      - '127.0.0.1:5434:5432'
+    volumes:
+      - visualdsa_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U visualdsa -d visualdsa']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - visualdsa
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: visualdsa_pgadmin
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@visualdsa.com
+      - PGADMIN_DEFAULT_PASSWORD=visualdsa
+      - SCRIPT_NAME=/pgadmin
+    ports:
+      - '127.0.0.1:8123:80'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - visualdsa
+
+volumes:
+  visualdsa_pgdata:
+
+networks:
+  visualdsa:
+    driver: bridge
