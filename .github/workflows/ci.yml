@@ -40,6 +40,12 @@ jobs:
       - name: Generate API client (codegen)
         run: pnpm codegen
 
+      # Build BEFORE typecheck: workspace packages import each other via their
+      # built `dist/` (package.json `types` -> ./dist), so shared packages must
+      # be built first for consumers to resolve them.
+      - name: Build
+        run: pnpm build
+
       - name: Lint
         run: pnpm lint
 
@@ -48,6 +54,3 @@ jobs:
 
       - name: Typecheck
         run: pnpm typecheck
-
-      - name: Build
-        run: pnpm build

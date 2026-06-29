@@ -99,8 +99,11 @@ Generated code is gitignored, so a clean checkout needs regeneration before
    NestJS app (`SKIP_DB=true`), and runs orval to generate
    `packages/api-client/src/generated/`
 
-After that, `pnpm typecheck`, `pnpm build`, `pnpm lint`, and `pnpm format` all
-pass. The `@visualdsa/ui`, `visualizer`, `algorithms`, `content`, and
+After that, `pnpm build` then `pnpm typecheck` / `pnpm lint` / `pnpm format` pass.
+**`pnpm typecheck` requires shared packages to be built first** — consumers import
+each other via `package.json` `types` → `dist/` (e.g. `@visualdsa/algorithms`
+imports `@visualdsa/types`), so run `pnpm build` before `pnpm typecheck` on a clean
+checkout. The `@visualdsa/ui`, `visualizer`, `algorithms`, `content`, and
 `python-examples` packages are currently stubs awaiting implementation per
 `docs/deep-research-report.md`.
 
@@ -147,9 +150,9 @@ pgAdmin `8123`. `.env` files are copied from `*.example` by `make env`
 - **`.github/PULL_REQUEST_TEMPLATE.md`** + **`.github/ISSUE_TEMPLATE/`**
   (bug + feature) — PR checklist references `pnpm build`/`ci:check`/`typecheck`.
 - **`.github/workflows/ci.yml`** — on push to `main` + PRs: install
-  `--frozen-lockfile` → `db:generate` → `codegen` → lint → format → typecheck →
-  build. Sets a placeholder `DATABASE_URL` (nothing connects). Note: typecheck/build
-  need generated code, so CI runs `db:generate` + `codegen` first.
+  `--frozen-lockfile` → `db:generate` → `codegen` → **build** → lint → format →
+  typecheck. Build runs before typecheck because consumers resolve shared packages
+  via their built `dist/`. Sets a placeholder `DATABASE_URL` (nothing connects).
 - **`.github/workflows/changeset.yml`** — on push to `main`, `changesets/action`
   opens/updates a "Version Packages" PR from pending changesets. **Version +
   changelog only — no publish.**
