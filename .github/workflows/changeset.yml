@@ -29,10 +29,13 @@ jobs:
 
       # Versioning + changelog only. Opens/updates a "Version Packages" PR
       # when there are pending changesets. Does NOT publish.
+      #
+      # NOTE: must use `pnpm exec changeset version` (not `pnpm version`), since
+      # pnpm's `version` is a built-in command that shadows the `version` script.
       - name: Create Version PR
         uses: changesets/action@v1
         with:
-          version: pnpm version
+          version: pnpm exec changeset version
           commit: 'chore(release): version packages'
           title: 'chore(release): version packages'
         env:
