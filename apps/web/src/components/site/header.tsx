@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Logo } from './logo';
 import { nav, site } from '@/lib/site';
 
@@ -22,13 +23,13 @@ export function SiteHeader() {
 
         <nav className="hidden items-center gap-7 md:flex">
           {nav.map((item) => (
-            <a
+            <Link
               key={item.href}
               href={item.href}
               className="text-sm text-muted transition-colors hover:text-fg"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -42,12 +43,12 @@ export function SiteHeader() {
           >
             <GithubIcon />
           </a>
-          <a
-            href="#curriculum"
+          <Link
+            href="/curriculum"
             className="inline-flex items-center rounded-md bg-emerald-500 px-3 py-1.5 text-sm font-medium text-zinc-950 transition-colors hover:bg-emerald-400"
           >
             Start learning
-          </a>
+          </Link>
         </div>
       </div>
     </header>

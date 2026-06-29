@@ -1,7 +1,7 @@
 import { Hero } from '@/components/home/hero';
 import { Differentiators } from '@/components/home/differentiators';
-import { Curriculum } from '@/components/home/curriculum';
 import { CodePreview } from '@/components/home/code-preview';
+import { CurriculumTeaser } from '@/components/home/curriculum-teaser';
 
 export default function Home() {
   return (
@@ -9,7 +9,7 @@ export default function Home() {
       <Hero />
       <Differentiators />
       <CodePreview />
-      <Curriculum />
+      <CurriculumTeaser />
     </>
   );
 }

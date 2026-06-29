@@ -7,8 +7,9 @@ export const site = {
   author: 'Shahadath Hossen Sajib',
 } as const;
 
+/** Primary navigation — rendered in the site header. */
 export const nav = [
-  { label: 'Curriculum', href: '#curriculum' },
-  { label: 'Why VisualDSA', href: '#features' },
-  { label: 'How it works', href: '#how-it-works' },
+  { label: 'Curriculum', href: '/curriculum' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'About', href: '/about' },
 ] as const;

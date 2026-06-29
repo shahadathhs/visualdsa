@@ -46,7 +46,7 @@ export function Hero() {
             className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1 font-mono text-xs text-muted transition-colors hover:text-fg"
           >
             <span className="text-emerald-400">●</span>
-            Free &amp; open-source · MIT
+            No ads · No paywalls
           </a>
 
           <h1 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">
