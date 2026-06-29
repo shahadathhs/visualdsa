@@ -40,3 +40,7 @@ jobs:
           title: 'chore(release): version packages'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Skip git hooks (husky pre-push build gate) on the bot's commit/push.
+          # The version PR is validated separately by the ci.yml workflow, which
+          # regenerates the Prisma + orval clients (db:generate + codegen) first.
+          HUSKY: '0'
