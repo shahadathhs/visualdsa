@@ -6,7 +6,7 @@ PNPM ?= pnpm
 .PHONY: help install env \
 	db-up db-down db-reset db-wait db-generate db-push db-migrate \
 	docker-up setup dev-api dev-web dev-stack prod prod-stop prod-logs \
-	changeset version
+	changeset version husky pre-push
 
 help:
 	@echo "VisualDSA — common targets"
@@ -31,6 +31,10 @@ help:
 	@echo "  Versioning (Changesets):"
 	@echo "  make changeset       Add a changeset (record a user-facing change)"
 	@echo "  make version         Consume changesets -> bump versions + CHANGELOG.md"
+	@echo ""
+	@echo "  Git hooks (Husky):"
+	@echo "  make husky           (Re)install git hooks (.husky/_)"
+	@echo "  make pre-push        Run the CI gate manually (lint, format, build, typecheck)"
 
 install:
 	$(PNPM) install
@@ -102,3 +106,13 @@ changeset:
 # Consume pending changesets: bump versions and update CHANGELOG.md (local).
 version:
 	$(PNPM) run version
+
+# --- Git hooks (Husky) ---
+# (Re)install git hooks. Also runs automatically on `pnpm install` via the
+# `prepare` script, so this is only needed after `git init` or cloning manually.
+husky:
+	$(PNPM) exec husky
+
+# Run the same CI gate the pre-push hook enforces (lint, format, build, typecheck).
+pre-push:
+	$(PNPM) run prepush

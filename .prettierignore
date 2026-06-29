@@ -10,3 +10,4 @@ docs
 **/generated
 **/next-env.d.ts
 generated
+pnpm-lock.yaml

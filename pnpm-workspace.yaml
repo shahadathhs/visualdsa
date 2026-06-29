@@ -69,6 +69,8 @@ minimumReleaseAgeExclude:
   - '@types/node@25.9.3'
   - eslint-plugin-turbo@2.9.18
   - turbo@2.9.18
+  - '@pm2/js-api@0.8.1'
+  - pm2@7.0.3
 
 onlyBuiltDependencies:
   - esbuild
