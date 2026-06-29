@@ -2,13 +2,13 @@ process.env.SKIP_DB = 'true';
 process.env.DATABASE_URL =
   'postgresql://placeholder:placeholder@localhost:5432/placeholder';
 
-import { writeFileSync } from 'node:fs';
-import { resolve, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { AppModule } from '../src/app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import yaml from 'js-yaml';
+import { writeFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { AppModule } from '../src/app.module';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -28,7 +28,7 @@ async function generateSpec() {
   const yamlContent = yaml.dump(document, { noRefs: true });
   writeFileSync(outputPath, yamlContent, 'utf-8');
 
-  console.log(`OpenAPI spec generated at ${outputPath}`);
+  console.info(`OpenAPI spec generated at ${outputPath}`);
   await app.close();
 }
 

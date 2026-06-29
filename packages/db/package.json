@@ -22,7 +22,7 @@
     "db:studio": "prisma studio",
     "db:validate": "prisma validate",
     "db:format": "prisma format",
-    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "build": "tsup",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
