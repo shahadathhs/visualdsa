@@ -1,8 +1,15 @@
+import { Hero } from '@/components/home/hero';
+import { Differentiators } from '@/components/home/differentiators';
+import { Curriculum } from '@/components/home/curriculum';
+import { CodePreview } from '@/components/home/code-preview';
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold">Welcome to VisualDSA</h1>
-      <p className="mt-4 text-lg text-gray-500">Next.js + NestJS Monorepo</p>
-    </main>
+    <>
+      <Hero />
+      <Differentiators />
+      <CodePreview />
+      <Curriculum />
+    </>
   );
 }
