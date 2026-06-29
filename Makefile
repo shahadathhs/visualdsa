@@ -5,7 +5,8 @@ PNPM ?= pnpm
 
 .PHONY: help install env \
 	db-up db-down db-reset db-wait db-generate db-push db-migrate \
-	docker-up setup dev-api dev-web dev-stack prod prod-stop prod-logs
+	docker-up setup dev-api dev-web dev-stack prod prod-stop prod-logs \
+	changeset version
 
 help:
 	@echo "VisualDSA — common targets"
@@ -26,6 +27,10 @@ help:
 	@echo "  make db-migrate      prisma migrate dev (interactive)"
 	@echo "  make dev-api | dev-web   single app dev servers"
 	@echo "  make prod | prod-stop | prod-logs   PM2 process management"
+	@echo ""
+	@echo "  Versioning (Changesets):"
+	@echo "  make changeset       Add a changeset (record a user-facing change)"
+	@echo "  make version         Consume changesets -> bump versions + CHANGELOG.md"
 
 install:
 	$(PNPM) install
@@ -88,3 +93,12 @@ prod-stop:
 
 prod-logs:
 	$(PNPM) run prod:logs
+
+# --- Versioning (Changesets) ---
+# Record a user-facing change, then CI opens a "Version Packages" PR on main.
+changeset:
+	$(PNPM) run changelog
+
+# Consume pending changesets: bump versions and update CHANGELOG.md (local).
+version:
+	$(PNPM) run version

@@ -1,5 +1,8 @@
 # VisualDSA
 
+[![CI](https://github.com/shahadathhs/visualdsa/actions/workflows/ci.yml/badge.svg)](https://github.com/shahadathhs/visualdsa/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
 > _To make DSA intuitive, not intimidating._
 
 VisualDSA is an open-source, interactive platform for learning data structures
@@ -90,3 +93,11 @@ for the full runbook.
 Foundation scaffolding is in place. The `ui`, `visualizer`, `algorithms`,
 `content`, and `python-examples` packages are stubbed and ready for
 implementation per the roadmap in the research report.
+
+## Contributing
+
+Contributions are welcome! Please read
+[**CONTRIBUTING.md**](./CONTRIBUTING.md) and our
+[**Code of Conduct**](./CODE_OF_CONDUCT.md). Roadmap: [**TODO.md**](./TODO.md).
+
+This project is licensed under the [MIT License](./LICENSE).

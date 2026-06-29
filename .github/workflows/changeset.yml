@@ -1,0 +1,39 @@
+name: Changesets
+
+on:
+  push:
+    branches: ['main']
+
+jobs:
+  version:
+    name: Version Packages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Versioning + changelog only. Opens/updates a "Version Packages" PR
+      # when there are pending changesets. Does NOT publish.
+      - name: Create Version PR
+        uses: changesets/action@v1
+        with:
+          version: pnpm version
+          commit: 'chore(release): version packages'
+          title: 'chore(release): version packages'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

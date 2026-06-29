@@ -137,6 +137,29 @@ Ports: web `3000`, API `4000` (Swagger at `/api/docs`), Postgres `5434`,
 pgAdmin `8123`. `.env` files are copied from `*.example` by `make env`
 (`packages/db`, `apps/api`, `apps/web`) — never overwritten.
 
+## Community & CI
+
+- **Community files** — `LICENSE` (MIT), `CODE_OF_CONDUCT.md`,
+  `CONTRIBUTING.md`, `TODO.md` (roadmap). Full spec: `docs/deep-research-report.md`.
+- **`.github/CODEOWNERS`** — `@shahadathhs` owns everything; sensitive paths
+  (`apps/*`, `packages/db`, `configs/*`, `.github/workflows`) listed explicitly.
+- **`.github/dependabot.yml`** — npm updates weekly (grouped), GitHub Actions monthly.
+- **`.github/PULL_REQUEST_TEMPLATE.md`** + **`.github/ISSUE_TEMPLATE/`**
+  (bug + feature) — PR checklist references `pnpm build`/`ci:check`/`typecheck`.
+- **`.github/workflows/ci.yml`** — on push to `main` + PRs: install
+  `--frozen-lockfile` → `db:generate` → `codegen` → lint → format → typecheck →
+  build. Sets a placeholder `DATABASE_URL` (nothing connects). Note: typecheck/build
+  need generated code, so CI runs `db:generate` + `codegen` first.
+- **`.github/workflows/changeset.yml`** — on push to `main`, `changesets/action`
+  opens/updates a "Version Packages" PR from pending changesets. **Version +
+  changelog only — no publish.**
+- **Changesets** — `.changeset/config.json` (`baseBranch: main`, `access:
+restricted`). Scripts: `pnpm changelog` (add) / `pnpm version` (apply). Packages
+  are `private` today, so changesets tracks + maintains the changelog; they'll be
+  versioned/published once a package is marked public.
+- **`.vscode/`** — `settings.json` (formatOnSave + Prettier) +
+  `extensions.json` (ESLint, Prettier, Tailwind, Prisma).
+
 ## Conventions
 
 ### Package Naming

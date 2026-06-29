@@ -3,6 +3,15 @@
   "private": true,
   "description": "VisualDSA — Next.js Web + NestJS API Monorepo with Shared Packages",
   "author": "Shahadath Hossen Sajib <shahadathhossensajib732@gmail.com> (https://github.com/shahadathhs)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shahadathhs/visualdsa.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shahadathhs/visualdsa/issues"
+  },
+  "homepage": "https://github.com/shahadathhs/visualdsa#readme",
   "packageManager": "pnpm@11.5.3",
   "scripts": {
     "dev": "turbo dev",
@@ -48,6 +57,8 @@
     "docker:down": "docker compose down",
     "prepare": "husky",
     "commit": "cz",
+    "changelog": "changeset add",
+    "version": "changeset version",
     "test": "turbo run test"
   },
   "workspaces": [
@@ -56,6 +67,7 @@
     "configs/*"
   ],
   "devDependencies": {
+    "@changesets/cli": "catalog:",
     "@visualdsa/eslint": "workspace:*",
     "@visualdsa/typescript": "workspace:*",
     "@types/node": "catalog:",

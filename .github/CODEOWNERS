@@ -1,0 +1,12 @@
+# Default owner for everything
+*       @shahadathhs
+
+# Specific owners for sensitive areas
+/.github/workflows/    @shahadathhs
+/apps/api/             @shahadathhs
+/apps/web/             @shahadathhs
+/packages/db/          @shahadathhs
+/packages/algorithms/  @shahadathhs
+/packages/visualizer/  @shahadathhs
+/configs/eslint/       @shahadathhs
+/configs/typescript/   @shahadathhs
