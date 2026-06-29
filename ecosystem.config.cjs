@@ -9,6 +9,7 @@
  * daemon is shared across `pnpm prod` / `pnpm prod:stop`.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const path = require('path');
 
 const root = __dirname;

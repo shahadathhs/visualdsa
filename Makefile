@@ -60,8 +60,11 @@ db-push: env
 db-migrate: env
 	$(PNPM) run db:migrate
 
+db-deploy: env
+	$(PNPM) run db:deploy
+
 # One-shot: dependencies, env, Postgres, schema — then use make dev-stack
-setup: install env db-up db-wait db-generate db-push
+setup: install env db-up db-wait db-generate db-deploy
 	@echo ""
 	@echo "Setup complete. DATABASE_URL defaults: localhost:5434 (see packages/db/.env)."
 	@echo "Start API + web:  make dev-stack"
