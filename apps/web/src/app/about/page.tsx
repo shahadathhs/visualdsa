@@ -1,4 +1,3 @@
-import type { Metadata } from 'next';
 import { EngineerSnippet } from '@/components/about/engineer-snippet';
 import { PageHero } from '@/components/site/page-hero';
 import {
@@ -10,6 +9,7 @@ import {
   socials,
   stack,
 } from '@/data/author';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: `About — ${author.name}`,
@@ -34,6 +34,21 @@ function ExternalIcon() {
     </svg>
   );
 }
+
+const connectLinks = [
+  {
+    label: 'Portfolio',
+    href: author.portfolio,
+    handle: 'shahadathhs.vercel.app',
+  },
+  { label: 'Email', href: `mailto:${author.email}`, handle: author.email },
+  { label: 'Resume', href: author.resume, handle: 'pdf' },
+  ...socials.map((social) => ({
+    label: social.label,
+    href: social.href,
+    handle: social.handle,
+  })),
+];
 
 export default function AboutPage() {
   return (
@@ -61,32 +76,27 @@ export default function AboutPage() {
             {author.initials}
           </div>
           <div className="flex-1">
-            <p className="max-w-2xl text-lg leading-relaxed text-muted">
+            <p className="text-lg leading-relaxed text-muted">
               {author.summary}
             </p>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <a
-                href={author.portfolio}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-md bg-emerald-500 px-4 py-2 text-sm font-medium text-zinc-950 transition-colors hover:bg-emerald-400"
-              >
-                Portfolio <ExternalIcon />
-              </a>
-              <a
-                href={`mailto:${author.email}`}
-                className="inline-flex items-center gap-2 rounded-md border border-line px-4 py-2 text-sm font-medium transition-colors hover:bg-elevated"
-              >
-                Email
-              </a>
-              <a
-                href={author.resume}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-md border border-line px-4 py-2 text-sm font-medium transition-colors hover:bg-elevated"
-              >
-                Resume <ExternalIcon />
-              </a>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {connectLinks.map((link) => {
+                const external = link.href.startsWith('http');
+                return (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target={external ? '_blank' : undefined}
+                    rel={external ? 'noreferrer' : undefined}
+                    className="inline-flex items-center gap-2 rounded-md border border-line px-3 py-1.5 text-sm transition-colors hover:bg-elevated"
+                  >
+                    <span>{link.label}</span>
+                    <span className="font-mono text-xs text-muted/60">
+                      {link.handle}
+                    </span>
+                  </a>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -215,32 +225,7 @@ export default function AboutPage() {
           <h2 className="text-xs font-semibold uppercase tracking-wider text-emerald-400">
             Why I built VisualDSA
           </h2>
-          <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted">
-            {mission}
-          </p>
-        </section>
-
-        {/* connect */}
-        <section className="mt-16">
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-muted/70">
-            Connect
-          </h2>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {socials.map((social) => (
-              <a
-                key={social.label}
-                href={social.href}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-md border border-line px-3 py-1.5 text-sm transition-colors hover:bg-elevated"
-              >
-                <span>{social.label}</span>
-                <span className="font-mono text-xs text-muted/60">
-                  {social.handle}
-                </span>
-              </a>
-            ))}
-          </div>
+          <p className="mt-3 text-base leading-relaxed text-muted">{mission}</p>
         </section>
       </div>
     </>

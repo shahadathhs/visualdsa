@@ -90,9 +90,11 @@ for the full runbook.
 
 ## Status
 
-Foundation scaffolding is in place. The `ui`, `visualizer`, `algorithms`,
-`content`, and `python-examples` packages are stubbed and ready for
-implementation per the roadmap in the research report.
+The site foundation is built — home, `/curriculum` (with a placeholder page for
+each of the 25 phases), `/about`, and `/blog` (live Medium feed). The
+interactive learning packages — `ui`, `visualizer`, `algorithms`, `content`,
+`python-examples` — are scaffolded and await implementation. See
+[**TODO.md**](./TODO.md) for the roadmap.
 
 ## Contributing
 
