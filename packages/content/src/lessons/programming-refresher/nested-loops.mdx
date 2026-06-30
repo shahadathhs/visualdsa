@@ -1,0 +1,50 @@
+Sometimes one loop isn't enough — you need to loop _inside_ a loop. **Nested loops** are how you handle grids, pairs, and multi-dimensional data.
+
+## A loop inside a loop
+
+For every pass of the **outer** loop, the **inner** loop runs completely:
+
+```python
+for i in range(3):        # outer
+    for j in range(3):    # inner — runs fully for each i
+        print(i, j)
+```
+
+This prints:
+
+```text
+0 0
+0 1
+0 2
+1 0
+1 1
+1 2
+2 0
+2 1
+2 2
+```
+
+Read it as: "for each row `i`, visit every column `j`."
+
+## The classic example: a times table
+
+```python
+for i in range(1, 4):         # rows: 1, 2, 3
+    for j in range(1, 4):     # cols: 1, 2, 3
+        print(i * j, end=" ")
+    print()                   # new line after each row
+```
+
+## Why this matters (and the cost)
+
+Nested loops are natural for 2D structures — a grid of cells, all pairs of items, rows and columns of a matrix. But notice the cost: if the outer loop runs `n` times and the inner also runs `n` times, the body runs `n × n = n²` times.
+
+> This is your first taste of **quadratic** behaviour — `O(n²)`. It's fine for small inputs but gets slow fast as `n` grows. Many algorithm problems are really about _avoiding_ a nested loop when you can.
+
+## When do you actually need one?
+
+- Iterating over a 2D list / matrix.
+- Comparing every item with every other item (all pairs).
+- Generating combinations.
+
+If you ever write two nested loops, pause and ask: "do I really need to look at every pair, or is there a smarter way?" That instinct is exactly what later phases (like the two-pointers and sliding-window patterns) sharpen.

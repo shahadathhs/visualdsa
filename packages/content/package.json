@@ -3,18 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "types": "./src/index.ts",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    }
+    ".": "./src/index.ts"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "build": "node scripts/build.mjs && tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -31,7 +25,6 @@
     "@visualdsa/typescript": "workspace:*",
     "@types/node": "catalog:",
     "eslint": "catalog:",
-    "tsup": "catalog:",
     "typescript": "catalog:"
   }
 }

@@ -1,0 +1,73 @@
+"Scope" is the rule for _where a variable exists_. Get this straight now and you'll dodge a huge class of bugs — and it sets up the call-stack mental model you'll need for recursion.
+
+## Local vs global
+
+A variable created **inside** a function is **local** — it only exists there:
+
+```python
+def do_something():
+    message = "hi"     # local to this function
+    print(message)
+
+do_something()         # prints: hi
+print(message)         # NameError — message doesn't exist out here
+```
+
+A variable created **outside** all functions is **global** — any function can read it:
+
+```python
+counter = 0            # global
+
+def show():
+    print(counter)     # reading a global is fine
+
+show()                 # 0
+```
+
+But assigning inside a function creates a _new local_ unless you say otherwise — a common trap:
+
+```python
+counter = 0
+
+def bump():
+    counter = counter + 1   # UnboundLocalError!
+
+bump()
+```
+
+> If a function only needs to _read_ a global, that's fine. If it needs to _change_ it, prefer passing the value in and returning the new one — much clearer than `global`.
+
+```python
+def bump(counter):
+    return counter + 1
+
+counter = bump(counter)   # explicit, no surprises
+```
+
+## Tracing code by hand
+
+The single best debugging skill: **trace** the code line by line, tracking each variable's value. Take this:
+
+```python
+x = 1
+for i in range(3):
+    x = x + i
+print(x)
+```
+
+Trace it:
+
+| step    | `i` | `x` |
+| ------- | --- | --- |
+| start   | –   | 1   |
+| round 1 | 0   | 1   |
+| round 2 | 1   | 2   |
+| round 3 | 2   | 4   |
+
+So it prints `4`.
+
+## Why this matters for DSA
+
+When you learn recursion, the **call stack** is just a stack of these local scopes — each call gets its own fresh copies of its variables, and they disappear when the call returns. Tracing a few loops by hand now trains exactly the muscle you'll use to trace a recursive function later.
+
+If a piece of code confuses you, slow down and trace it. A pencil and a small table beat staring at the screen every time.

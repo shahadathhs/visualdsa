@@ -1,0 +1,52 @@
+Loops are how a program repeats work without you writing the same line over and over. This is the heart of **iteration**, and almost every algorithm uses it.
+
+## `for` loops: repeat a known number of times
+
+A `for` loop walks through a sequence — most often a `range` of numbers or a collection:
+
+```python
+for i in range(5):     # i = 0, 1, 2, 3, 4
+    print(i)
+```
+
+`range(5)` produces `0, 1, 2, 3, 4` (it stops _before_ 5). You can also loop directly over a list:
+
+```python
+fruits = ["apple", "banana", "cherry"]
+for fruit in fruits:
+    print(fruit)
+```
+
+## `while` loops: repeat until something changes
+
+A `while` loop keeps going as long as its condition stays `True`:
+
+```python
+count = 0
+while count < 3:
+    print(count)
+    count += 1        # don't forget to change the condition!
+```
+
+> A `while` loop whose condition never becomes `False` runs forever — an **infinite loop**. Always make sure something inside the loop moves toward stopping.
+
+## `break` and `continue`
+
+- `break` exits the loop immediately.
+- `continue` skips the rest of this round and moves to the next.
+
+```python
+for n in range(10):
+    if n == 5:
+        break        # stop the whole loop
+    if n % 2 == 0:
+        continue     # skip even numbers
+    print(n)         # prints 1, 3
+```
+
+## Choosing between them
+
+- Use `for` when you know how many times to repeat (or you're walking a collection).
+- Use `while` when you repeat _until a condition changes_ (e.g. until a search finds what it wants).
+
+Loops turn "do this once" into "do this many times" — the exact tool algorithms need to scan, search, and transform data. The next lessons cover the common shapes loops take.

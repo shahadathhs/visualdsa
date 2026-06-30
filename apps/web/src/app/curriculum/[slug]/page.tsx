@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { phases } from '@/data/curriculum';
 import { statusLabel, statusStyles } from '@/components/home/curriculum-grid';
+import { hasLesson } from '@/lib/content';
 
 export function generateStaticParams() {
   return phases.map((p) => ({ slug: p.slug }));
@@ -96,36 +97,71 @@ export default async function PhasePage({
             What you&apos;ll learn ({phase.topics.length} topics)
           </h2>
           <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-            {phase.topics.map((topic) => (
-              <li
-                key={topic.slug}
-                className="flex items-center gap-3 rounded-lg border border-line bg-surface px-4 py-3"
-              >
+            {phase.topics.map((topic) => {
+              const ready = hasLesson(phase.slug, topic.slug);
+              const row =
+                'flex items-center gap-3 rounded-lg border border-line bg-surface px-4 py-3 transition-colors';
+              const icon = (
                 <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-line text-muted/60">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    className="h-3 w-3"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M12 6v6l4 2"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="9"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    />
-                  </svg>
+                  {ready ? (
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      className="h-3 w-3 text-emerald-400"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M5 12l4 4L19 7"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      className="h-3 w-3"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M12 6v6l4 2"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                      />
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="9"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      />
+                    </svg>
+                  )}
                 </span>
-                <span className="text-sm">{topic.title}</span>
-              </li>
-            ))}
+              );
+
+              return (
+                <li key={topic.slug}>
+                  {ready ? (
+                    <Link
+                      href={`/curriculum/${phase.slug}/${topic.slug}`}
+                      className={`${row} hover:border-emerald-500/40`}
+                    >
+                      {icon}
+                      <span className="text-sm">{topic.title}</span>
+                    </Link>
+                  ) : (
+                    <span className={row} aria-disabled="true">
+                      {icon}
+                      <span className="text-sm text-muted">{topic.title}</span>
+                    </span>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </section>
 

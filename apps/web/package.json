@@ -17,10 +17,12 @@
   },
   "dependencies": {
     "@visualdsa/api-client": "workspace:*",
+    "@visualdsa/content": "workspace:*",
     "@visualdsa/types": "workspace:*",
     "@visualdsa/utils": "workspace:*",
     "clsx": "catalog:",
     "next": "catalog:",
+    "next-mdx-remote": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "tailwind-merge": "catalog:"

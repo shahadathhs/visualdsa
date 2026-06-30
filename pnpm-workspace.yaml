@@ -40,6 +40,7 @@ catalog:
   globals: ^17.7.0
   husky: ^9.1.7
   next: 16.2.9
+  next-mdx-remote: ^5.0.0
   pm2: ^7.0.3
   prettier: ^3.9.1
   react: 19.2.7

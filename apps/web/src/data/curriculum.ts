@@ -61,7 +61,7 @@ export const phases: Phase[] = [
     title: 'Programming Refresher & Iteration',
     blurb:
       'No CS background? Start here — the building blocks every algorithm uses.',
-    status: 'in-progress',
+    status: 'ready',
     topics: [
       {
         slug: 'how-programs-run',

@@ -1,0 +1,58 @@
+Real programs don't always run in a straight line — they need to make decisions. Conditionals let code choose a path based on the data.
+
+## `if` / `elif` / `else`
+
+A conditional runs a block only when a condition is `True`:
+
+```python
+score = 72
+
+if score >= 60:
+    print("Pass")
+else:
+    print("Fail")
+```
+
+Need more than two outcomes? Chain with `elif` ("else if"):
+
+```python
+if score >= 90:
+    grade = "A"
+elif score >= 80:
+    grade = "B"
+elif score >= 70:
+    grade = "C"
+else:
+    grade = "F"
+```
+
+Python checks top-to-bottom and runs **only the first branch that matches**, then skips the rest.
+
+## Conditions are just expressions
+
+Each condition is an expression that evaluates to a `bool`. Comparison and logical operators do the work:
+
+```python
+if age >= 18 and has_ticket:
+    print("Come in")
+```
+
+## Truthiness
+
+In a condition, Python treats some values as "truthy" or "falsy":
+
+- Falsy: `0`, `""` (empty string), `[]` (empty list), `None`, `False`
+- Everything else is truthy.
+
+```python
+name = ""
+
+if name:                 # empty string is falsy
+    print("Hi", name)
+else:
+    print("No name given")
+```
+
+> Indentation matters in Python. The lines under an `if` must be indented consistently — that's how Python knows what belongs to the branch.
+
+Conditionals give your code branches; combined with variables and operators, you can already express a lot of logic. Next, we'll repeat work with loops.

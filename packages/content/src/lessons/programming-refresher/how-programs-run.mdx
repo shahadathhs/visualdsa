@@ -1,0 +1,35 @@
+Before we touch data structures or algorithms, it helps to understand what actually happens when you run a program. This lesson is a quick, practical refresher.
+
+## A program is a list of instructions
+
+When you run a Python program, the computer reads your code **line by line, top to bottom**, and does what each line says. That's it. Most of programming is just deciding the _order_ and the _conditions_ of those instructions.
+
+```python
+print("Hello")   # 1. say hello
+print("World")   # 2. say world
+```
+
+These two lines run in order — `Hello`, then `World`. Order matters.
+
+## Statements vs expressions
+
+Two words you'll see everywhere:
+
+- A **statement** is a complete instruction that _does_ something. `x = 5` is a statement.
+- An **expression** is anything that _evaluates to a value_. `5`, `2 + 3`, and `x * 2` are expressions.
+
+Most lines are a mix: `y = 2 + 3` is a statement (assign) built from an expression (`2 + 3`).
+
+```python
+total = 10 + 5   # '10 + 5' is an expression; the whole line is a statement
+print(total)     # statement
+```
+
+## Comments and output
+
+- `print(...)` shows a value on the screen — your main way to _see_ what a program is doing.
+- Anything after `#` on a line is a **comment** — ignored by Python, meant for humans.
+
+> Use `print` liberally while learning. If you're not sure what a program is doing, print the values at each step and watch them appear.
+
+That's the foundation: code runs in order, statements do things, expressions produce values. Everything else builds on this.

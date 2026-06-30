@@ -1,0 +1,55 @@
+As code grows, you'll write the same logic in many places. **Functions** let you package a block of code, give it a name, and reuse it. They're the main tool for keeping programs organised.
+
+## Defining and calling
+
+Use `def` to define a function, then call it by name:
+
+```python
+def greet():
+    print("Hello!")
+
+greet()    # prints: Hello!
+```
+
+## Parameters and arguments
+
+A **parameter** is a placeholder in the definition; an **argument** is the actual value you pass in:
+
+```python
+def greet(name):          # 'name' is a parameter
+    print(f"Hello, {name}!")
+
+greet("Sajib")            # "Sajib" is the argument
+```
+
+You can have several, and give them **default values**:
+
+```python
+def greet(name, excited=False):
+    ending = "!" if excited else "."
+    print(f"Hello, {name}{ending}")
+
+greet("Sajib")              # Hello, Sajib.
+greet("Sajib", excited=True)  # Hello, Sajib!
+```
+
+## Returning values
+
+`print` _shows_ a value; `return` _hands it back_ so the caller can use it. This distinction is crucial:
+
+```python
+def add(a, b):
+    return a + b
+
+result = add(2, 3)   # result is 5
+```
+
+A function without a `return` implicitly returns `None`.
+
+> A good function does **one thing** and returns a result. If you find a function printing _and_ calculating _and_ deciding, split it up. Small, focused functions are far easier to test and reuse.
+
+## Why bother?
+
+Functions give you **abstraction** — once `add` works, you can use it without re-reading its body. They also make code testable: you can call `add(2, 3)` and check it returns `5`. When you learn recursion later, it's just a function that calls _itself_.
+
+Functions are where code starts to become a system rather than a script. Next, we'll look at where their variables live.

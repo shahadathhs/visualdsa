@@ -1,0 +1,64 @@
+Once you can loop, you'll start to notice the same shapes coming up again and again. These **iteration patterns** are the building blocks of most algorithms.
+
+## Counting
+
+Count how many items meet a condition:
+
+```python
+numbers = [3, 7, 2, 9, 4]
+count = 0
+for n in numbers:
+    if n > 5:
+        count += 1
+print(count)   # 2
+```
+
+The pattern: start a counter at `0`, loop, add `1` when the condition holds.
+
+## Accumulating (sum, product)
+
+Build up a running total:
+
+```python
+total = 0
+for n in numbers:
+    total += n
+print(total)   # 25
+```
+
+Same idea works for a running product — just start at `1` and multiply (`total *= n`).
+
+## Finding the max / min
+
+Track the best value seen so far:
+
+```python
+best = numbers[0]          # start with the first
+for n in numbers:
+    if n > best:
+        best = n
+print(best)   # 9
+```
+
+> Why start with `numbers[0]` instead of `0`? If every number is negative, starting at `0` would give the wrong max. Seeding with the first item is safer.
+
+## Building a new list
+
+Collect results into a new list as you go:
+
+```python
+doubled = []
+for n in numbers:
+    doubled.append(n * 2)
+# doubled = [6, 14, 4, 18, 8]
+```
+
+This is the manual version of what Python's list comprehensions do:
+
+```python
+doubled = [n * 2 for n in numbers]   # same result, shorter
+```
+
+## The big idea
+
+Every one of these is "loop + a variable that carries a result forward." Recognising the pattern — _count_, _accumulate_, _find best_, _collect_ — lets you read new algorithms quickly, because they're almost always combinations of these.

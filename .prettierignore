@@ -9,5 +9,6 @@ dist
 docs
 **/generated
 **/next-env.d.ts
+packages/content/src/registry.ts
 generated
 pnpm-lock.yaml

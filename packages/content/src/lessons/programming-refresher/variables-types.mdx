@@ -1,0 +1,57 @@
+To do useful work, a program has to _remember_ things. That's what variables are for.
+
+## Variables are labelled boxes
+
+A **variable** is a name you give to a value so you can reuse it later. You create one with assignment (`=`):
+
+```python
+age = 25
+name = "Sajib"
+is_ready = True
+```
+
+Read `age = 25` as "put `25` into the box labelled `age`". You can change what's in the box anytime:
+
+```python
+score = 0
+score = score + 10   # score is now 10
+score += 5           # shortcut: score is now 15
+```
+
+## Common types
+
+Every value has a **type**. Python figures out the type automatically (it's _dynamically typed_):
+
+| Type    | Example          | Meaning               |
+| ------- | ---------------- | --------------------- |
+| `int`   | `42`             | whole numbers         |
+| `float` | `3.14`           | decimal numbers       |
+| `str`   | `"hello"`        | text                  |
+| `bool`  | `True` / `False` | truth values          |
+| `list`  | `[1, 2, 3]`      | an ordered collection |
+
+You can check a value's type with `type(...)`:
+
+```python
+type(42)        # <class 'int'>
+type("hello")   # <class 'str'>
+```
+
+## Operators
+
+Operators combine values into expressions. The ones you'll use constantly:
+
+- **Arithmetic:** `+  -  *  /  //  %  **`
+- **Comparison:** `==  !=  <  >  <=  >=` (these produce `bool`)
+- **Logical:** `and`, `or`, `not`
+
+```python
+5 + 2     # 7
+10 % 3    # 1  (remainder)
+5 > 3     # True
+not True  # False
+```
+
+> Watch out for `=` vs `==`. A single `=` _assigns_ a value; a double `==` _compares_ two values.
+
+You now have the building blocks: named values, types, and operators. Next we'll use them to make decisions.

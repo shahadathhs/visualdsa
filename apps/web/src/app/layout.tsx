@@ -59,7 +59,10 @@ export default function RootLayout({
       className={`${inter.variable} ${mono.variable}`}
       suppressHydrationWarning
     >
-      <body className="min-h-dvh bg-canvas text-fg antialiased">
+      <body
+        className="min-h-dvh bg-canvas text-fg antialiased"
+        suppressHydrationWarning
+      >
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />
