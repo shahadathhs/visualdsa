@@ -13,6 +13,12 @@ function clean(value: string): string {
   return value
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
     .replace(/<[^>]*>/g, '')
+    .replace(/&amp;/gi, '&')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/&nbsp;/gi, ' ')
     .replace(/&[a-z#0-9]+;/gi, ' ')
     .replace(/\s+/g, ' ')
     .trim();
@@ -52,7 +58,10 @@ export async function getMediumPosts(): Promise<BlogPost[]> {
           title: title || 'Untitled',
           href: link || '#',
           description,
-          date: pubDate ? new Date(pubDate).toISOString() : '',
+          date:
+            pubDate && !Number.isNaN(Date.parse(pubDate))
+              ? new Date(pubDate).toISOString()
+              : '',
           platform: 'medium' as const,
           tags: categories,
         };
