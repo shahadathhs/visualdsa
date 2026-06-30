@@ -199,4 +199,4 @@ export const projects: Project[] = [
 ];
 
 export const mission =
-  'I built VisualDSA to make data structures & algorithms intuitive, not intimidating — the interactive, Python-first classroom I wish I’d had when learning: visual, focused on why things work, and free for everyone.';
+  'I built VisualDSA to make data structures & algorithms intuitive, not intimidating — the interactive, Python-first classroom I wish I’d had when learning: visual, focused on why things work, and accessible to everyone.';

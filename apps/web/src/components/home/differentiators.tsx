@@ -34,11 +34,12 @@ function Icon({ name }: { name: FeatureIcon }) {
           <path d="M9 11h6M9 14h4" />
         </svg>
       );
-    case 'open':
+    case 'path':
       return (
         <svg {...common}>
-          <path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z" />
-          <path d="M9 12l2 2 4-4" />
+          <path d="M4 19l5-5 4 3 7-9" />
+          <circle cx="4" cy="19" r="1.5" />
+          <circle cx="20" cy="8" r="1.5" />
         </svg>
       );
   }

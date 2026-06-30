@@ -39,15 +39,10 @@ export function Hero() {
       <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-5 py-20 lg:grid-cols-2 lg:py-28">
         {/* copy */}
         <div>
-          <a
-            href={site.github}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1 font-mono text-xs text-muted transition-colors hover:text-fg"
-          >
+          <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1 font-mono text-xs text-muted">
             <span className="text-emerald-400">●</span>
-            No ads · No paywalls
-          </a>
+            Interactive · Python-first
+          </span>
 
           <h1 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">
             See algorithms run.
@@ -90,7 +85,7 @@ export function Hero() {
               className="inline-flex items-center gap-2 rounded-md border border-line px-4 py-2 text-sm font-medium text-fg transition-colors hover:bg-elevated"
             >
               <GithubIcon />
-              Star on GitHub
+              View on GitHub
             </a>
           </div>
         </div>

@@ -1,4 +1,4 @@
-export type FeatureIcon = 'visualize' | 'python' | 'explain' | 'open';
+export type FeatureIcon = 'visualize' | 'python' | 'explain' | 'path';
 
 export type Feature = {
   icon: FeatureIcon;
@@ -26,9 +26,9 @@ export const features: Feature[] = [
       'Each step explains what happened and why — not just what to memorize.',
   },
   {
-    icon: 'open',
-    title: 'Free & open-source',
+    icon: 'path',
+    title: 'Structured learning path',
     description:
-      'MIT-licensed and community-driven. No ads, no paywalls, ever.',
+      'A guided curriculum from your first loop to dynamic programming, so you always know what to learn next.',
   },
 ];
