@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { PrismaModule } from './common/prisma/prisma.module';
 import { AuthController } from './main/auth/auth.controller';
 
 @Module({
@@ -11,6 +12,7 @@ import { AuthController } from './main/auth/auth.controller';
       envFilePath: ['.env.local', '.env'],
       ignoreEnvFile: process.env.SKIP_DB === 'true',
     }),
+    PrismaModule,
   ],
   controllers: [AppController, AuthController],
   providers: [AppService],

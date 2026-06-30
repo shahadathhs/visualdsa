@@ -1,23 +1,4 @@
-import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { AppModule } from '../app.module';
-
-export async function createApp() {
-  const app = await NestFactory.create(AppModule);
-  app.enableCors();
-
-  const config = new DocumentBuilder()
-    .setTitle('VisualDSA API')
-    .setDescription('VisualDSA API Documentation')
-    .setVersion('0.0.0')
-    .addBearerAuth()
-    .build();
-
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document);
-
-  return { app, document };
-}
+import { createApp } from './create-app';
 
 async function bootstrap() {
   const { app } = await createApp();

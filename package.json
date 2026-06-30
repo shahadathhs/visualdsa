@@ -69,6 +69,8 @@
   ],
   "devDependencies": {
     "@changesets/cli": "catalog:",
+    "@commitlint/cli": "catalog:",
+    "@commitlint/config-conventional": "catalog:",
     "@visualdsa/eslint": "workspace:*",
     "@visualdsa/typescript": "workspace:*",
     "@types/node": "catalog:",

@@ -6,7 +6,7 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "assets": [],
-    "exclude": ["src/spec.ts"]
+    "exclude": []
   },
   "generateOptions": {
     "spec": false

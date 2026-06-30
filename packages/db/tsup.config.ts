@@ -4,10 +4,20 @@ export default defineConfig({
   entry: ['src/index.ts'],
   format: ['cjs', 'esm'],
   dts: true,
-  // The Prisma 7 generated client uses `import.meta.url`, which esbuild warns
-  // about under CJS (it still works at runtime via the `__dirname` fallback).
-  // Silence the benign `empty-import-meta` diagnostic.
-  esbuildOptions(options) {
+  esbuildOptions(options, ctx) {
+    // The Prisma 7 generated client references `import.meta.url` at module
+    // top level (to set `globalThis['__dirname']`). esbuild stubs
+    // `import.meta` to `{}` under CJS, so `fileURLToPath(undefined)` throws
+    // the moment `PrismaModule` is imported. Provide a real CJS shim so the
+    // import succeeds; ESM has `import.meta.url` natively and needs none.
+    if (ctx.format === 'cjs') {
+      options.banner = {
+        js: `var __import_meta_url = require('url').pathToFileURL(__filename).href;`,
+      };
+      options.define = {
+        'import.meta.url': '__import_meta_url',
+      };
+    }
     options.logOverride = {
       'empty-import-meta': 'silent',
     };

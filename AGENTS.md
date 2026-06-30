@@ -37,7 +37,8 @@ The one-liner for the full pipeline: `pnpm run codegen` (from root).
 
 - `@visualdsa/db` builds the Prisma client via `tsup` — the generated client lives in `packages/db/prisma/generated/`
 - The API imports `PrismaClient` from `@visualdsa/db` and wraps it in `PrismaService` using the `@prisma/adapter-pg` (pg adapter, not the default Prisma query engine)
-- `PrismaModule` is `@Global()` — inject `PrismaService` anywhere without importing the module
+- `PrismaModule` is `@Global()` **and imported into `AppModule`** — inject `PrismaService` anywhere without re-importing the module. `PrismaService` honors `SKIP_DB=true` (skips `$connect`/`$disconnect`) so the app can boot for spec generation / CI without a database.
+- All routes are served under a **global `/api` prefix** (`setGlobalPrefix('api')`), so endpoints are `/api`, `/api/health`, `/api/auth/*`. Swagger UI is at `/api/docs`. The OpenAPI spec paths include the `/api` prefix, and the orval `baseUrl` is empty (no doubling).
 
 ## Commands
 
@@ -183,19 +184,23 @@ The Prisma schema is split across files in `packages/db/prisma/schema/`. The bas
 ### NestJS Patterns
 
 - Entry point is `src/main/main.ts` (not the default `src/main.ts`)
-- `createApp()` is exported separately — used by both `bootstrap()` and the spec generator
+- `createApp()` lives in `src/main/create-app.ts` (side-effect-free) — used by both `bootstrap()` (in `main.ts`) and the spec generator (`scripts/spec.ts`). **Do not add top-level side effects to `create-app.ts`** — importing it must not start the server.
+- A global `ValidationPipe` (`whitelist`, `transform`, `forbidNonWhitelisted`) is registered in `createApp()`.
 - Controllers register under `src/main/` grouped by domain (e.g., `src/main/auth/`)
 - DTOs live alongside their controllers in `dto/` subdirectories
 - Swagger decorators (`@ApiTags`, `@ApiOperation`, `@ApiResponse`, `@ApiProperty`) are required on all endpoints and DTOs — they drive the code generation pipeline
 - The `src/common/` directory holds cross-cutting concerns (e.g., `prisma.service.ts`)
+- **`PrismaService` uses explicit `@Inject(ConfigService)`** — required because spec generation runs via `tsx`/esbuild, which does not emit `design:paramtypes` decorator metadata. Reflection-only constructor injection fails under esbuild; explicit `@Inject(Token)` works under both `tsc` and `tsx`.
 
 ### Commit Convention
 
-Commitlint enforces conventional commits. Allowed types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`, `wip`, `release`. Use `pnpm commit` for interactive prompts.
+Commitlint enforces conventional commits via a `.husky/commit-msg` hook (`@commitlint/config-conventional`). Allowed types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`, `wip`, `release`. Use `pnpm commit` for interactive prompts (commitizen / `cz-git`).
 
-### Pre-commit Hook
+### Git Hooks (Husky)
 
-Husky runs `lint-staged` on pre-commit. Staged `*.{js,ts,jsx,tsx}` files get `eslint --fix` + `prettier --write`. Staged `*.{json,md}` get `prettier --write`.
+- **pre-commit** — runs `lint-staged`: `eslint --fix` + `prettier --write` on staged `*.{js,ts,jsx,tsx}`, `prettier --write` on staged `*.{json,md}`.
+- **commit-msg** — runs `commitlint --edit` to enforce conventional commits.
+- **pre-push** — runs `pnpm prepush` (`lint && format && build && typecheck`), the CI gate.
 
 ### Style
 
@@ -205,13 +210,16 @@ Husky runs `lint-staged` on pre-commit. Staged `*.{js,ts,jsx,tsx}` files get `es
 
 ## Gotchas
 
-- **Spec generation requires `SKIP_DB=true`**: The spec generator script (`apps/api/scripts/spec.ts`) sets `SKIP_DB=true` and a placeholder `DATABASE_URL` at the top before importing the app module. This prevents Prisma from trying to connect during spec generation. The `ConfigModule` in `AppModule` checks `process.env.SKIP_DB === 'true'` to skip `.env` loading.
+- **Spec generation requires `SKIP_DB=true`**: The spec generator script (`apps/api/scripts/spec.ts`) sets `SKIP_DB=true` and a placeholder `DATABASE_URL` at the top before importing the app module. `SKIP_DB=true` must short-circuit _both_ `ConfigModule` (skip `.env` loading, via `ignoreEnvFile`) _and_ `PrismaService` (skip `$connect`/`$disconnect`, via the guard in `onModuleInit`/`onModuleDestroy`). If you add any new boot-time DB access, gate it on `SKIP_DB`.
+- **`tsx`/esbuild does not emit decorator metadata**: Spec generation runs via `tsx`, which (unlike `tsc`/`nest build`) does not emit `design:paramtypes`. NestJS reflection-only constructor injection and Swagger model introspection of nested DTO types both fail under `tsx`. Always use explicit `@Inject(Token)` for DI; prefer inline `@ApiResponse({ schema })` over `type: NestedDto` for response schemas you want reflected in the generated spec.
+- **Prisma generated client uses `import.meta.url` (CJS shim required)**: `packages/db/prisma/generated/client.ts` references `import.meta.url` at module top level. Under CJS (which the NestJS app uses), esbuild stubs `import.meta` to `{}`, making `fileURLToPath(undefined)` throw on import. `packages/db/tsup.config.ts` injects a format-aware CJS banner (`__import_meta_url`) to fix this. Do not remove it.
+- **`createApp()` is side-effect-free**: `src/main/create-app.ts` exports `createApp()` with no top-level side effects. `src/main/main.ts` calls `bootstrap()` (which starts the server) at module top level — **do not import `main.ts` from anywhere except the server entry**, or `bootstrap()` will fire on import. The spec generator imports `create-app.ts`, never `main.ts`.
 - **Prisma generated output is not in the default location**: The generated client is at `packages/db/prisma/generated/` (not `node_modules/.prisma/client`). The `@visualdsa/db` package re-exports from `../prisma/generated/client`.
 - **`@visualdsa/api-client` exports raw `.ts` source**: Its `package.json` exports map points to `./src/index.ts` directly (no build step for the client package — it's consumed as TypeScript by the Next.js app which compiles it).
 - **`generated/` directories are gitignored**: Both `packages/db/prisma/generated/` and `packages/api-client/src/generated/` are generated code. Run `pnpm run codegen` after changing API endpoints.
-- **Orval config has a hardcoded title transformer**: It rewrites the OpenAPI spec title to `'Api'` regardless of what NestJS produces. This is for orval's naming conventions.
+- **Orval config has a hardcoded title transformer**: It rewrites the OpenAPI spec title to `'Api'` regardless of what NestJS produces. This is for orval's naming conventions. Its `baseUrl` is intentionally empty because the `/api` prefix already lives in the spec paths (set by the server's global prefix).
 - **`legacy-peer-deps=true`** is set in `.npmrc` — needed for some Prisma/NestJS peer dep conflicts.
-- **No CI workflows yet**: The `.github/workflows/` directory exists but is empty. The `ci:check` and `ci:fix` scripts exist in root `package.json` but are not wired to any CI runner.
+- **Two CI workflows exist** (`.github/workflows/`): `ci.yml` (install → db:generate → codegen → build → lint → format → typecheck on push/PR) and `changeset.yml` (opens a "Version Packages" PR on push to `main`). `ci:check` / `ci:fix` scripts are local convenience wrappers.
 - **No test framework configured**: `pnpm test` runs `turbo run test` but no workspace has a test runner (jest, vitest, etc.) installed yet.
 
 ## Environment Variables

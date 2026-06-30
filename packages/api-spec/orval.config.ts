@@ -24,7 +24,7 @@ export default defineConfig({
       target: 'generated',
       client: 'react-query',
       mode: 'split',
-      baseUrl: '/api',
+      baseUrl: '',
       clean: true,
       override: {
         fetch: {

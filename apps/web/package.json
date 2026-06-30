@@ -16,6 +16,7 @@
     "clean:turbo": "rimraf .turbo .next node_modules"
   },
   "dependencies": {
+    "@tanstack/react-query": "catalog:",
     "@visualdsa/api-client": "workspace:*",
     "@visualdsa/content": "workspace:*",
     "@visualdsa/types": "workspace:*",

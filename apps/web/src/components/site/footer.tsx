@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Logo } from './logo';
+import { ApiHealthBadge } from './api-health-badge';
 import { site } from '@/lib/site';
 import { author, socials as authorSocials } from '@/data/author';
 
@@ -138,19 +139,22 @@ export function SiteFooter() {
           <p className="text-xs text-muted">
             © {new Date().getFullYear()} VisualDSA · Built for learners
           </p>
-          <div className="flex items-center gap-1">
-            {footerSocials.map((social) => (
-              <a
-                key={social.label}
-                href={social.href}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={social.label}
-                className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted transition-colors hover:bg-elevated hover:text-fg"
-              >
-                <SocialIcon label={social.label} />
-              </a>
-            ))}
+          <div className="flex items-center gap-4">
+            <ApiHealthBadge />
+            <div className="flex items-center gap-1">
+              {footerSocials.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={social.label}
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted transition-colors hover:bg-elevated hover:text-fg"
+                >
+                  <SocialIcon label={social.label} />
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </div>

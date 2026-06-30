@@ -1,6 +1,6 @@
 openapi: 3.0.0
 paths:
-  /:
+  /api:
     get:
       operationId: AppController_getHello
       parameters: []
@@ -10,7 +10,7 @@ paths:
       summary: Root endpoint
       tags:
         - App
-  /health:
+  /api/health:
     get:
       operationId: AppController_health
       parameters: []
@@ -20,7 +20,7 @@ paths:
       summary: Health check
       tags:
         - App
-  /auth/register:
+  /api/auth/register:
     post:
       operationId: AuthController_register
       parameters: []
@@ -45,7 +45,7 @@ paths:
       summary: Register a new user
       tags:
         - Auth
-  /auth/login:
+  /api/auth/login:
     post:
       operationId: AuthController_login
       parameters: []

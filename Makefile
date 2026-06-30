@@ -5,13 +5,13 @@ PNPM ?= pnpm
 
 .PHONY: help install env \
 	db-up db-down db-reset db-wait db-generate db-push db-migrate \
-	docker-up setup dev-api dev-web dev-stack prod prod-stop prod-logs \
+	docker-up setup codegen dev-api dev-web dev-stack prod prod-stop prod-logs \
 	changeset version husky pre-push
 
 help:
 	@echo "VisualDSA — common targets"
 	@echo ""
-	@echo "  make setup          Full DB + repo prep: pnpm install, .env files, Postgres, prisma generate + push"
+	@echo "  make setup          Full DB + repo prep: install, .env files, Postgres, prisma generate + push, api-client codegen"
 	@echo "  make dev-stack      ensure Postgres + schema, then API + web (concurrently)"
 	@echo "  pnpm prod           build + run API + web under PM2 (Postgres must be up)"
 	@echo ""
@@ -25,6 +25,7 @@ help:
 	@echo "  make db-generate     prisma generate"
 	@echo "  make db-push         prisma db push (schema -> DB, non-interactive)"
 	@echo "  make db-migrate      prisma migrate dev (interactive)"
+	@echo "  make codegen         build db -> OpenAPI spec -> orval api-client"
 	@echo "  make dev-api | dev-web   single app dev servers"
 	@echo "  make prod | prod-stop | prod-logs   PM2 process management"
 	@echo ""
@@ -72,8 +73,13 @@ db-migrate: env
 db-deploy: env
 	$(PNPM) run db:deploy
 
-# One-shot: dependencies, env, Postgres, schema — then use make dev-stack
-setup: install env db-up db-wait db-generate db-deploy
+# Full codegen pipeline: build @visualdsa/db, extract OpenAPI spec from the
+# NestJS app (SKIP_DB=true), then run orval to generate the api-client.
+codegen:
+	$(PNPM) run codegen
+
+# One-shot: dependencies, env, Postgres, schema, api-client types
+setup: install env db-up db-wait db-generate db-deploy codegen
 	@echo ""
 	@echo "Setup complete. DATABASE_URL defaults: localhost:5434 (see packages/db/.env)."
 	@echo "Start API + web:  make dev-stack"

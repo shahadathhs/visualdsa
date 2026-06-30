@@ -12,6 +12,8 @@ allowBuilds:
 
 catalog:
   '@changesets/cli': ^2.31.0
+  '@commitlint/cli': ^21.2.0
+  '@commitlint/config-conventional': ^21.2.0
   '@eslint/js': ^10.0.1
   '@nestjs/cli': ^11.0.23
   '@nestjs/common': ^11.1.27
@@ -19,16 +21,24 @@ catalog:
   '@nestjs/core': ^11.1.27
   '@nestjs/platform-express': ^11.1.27
   '@nestjs/schematics': ^11.1.0
+  '@nestjs/swagger': ^11.4.4
   '@next/eslint-plugin-next': ^16.2.9
+  '@prisma/adapter-pg': ^7.8.0
+  '@prisma/client': ^7.8.0
+  '@prisma/client-runtime-utils': ^7.8.0
   '@tailwindcss/postcss': ^4.3.2
   '@tanstack/react-query': ^5.101.2
   '@types/node': ^26.0.1
+  '@types/pg': ^8.20.0
   '@types/react': ^19.2.17
   '@types/react-dom': ^19.2.3
+  class-transformer: ^0.5.1
+  class-validator: ^0.15.1
   clsx: ^2.1.1
   commitizen: ^4.3.2
   concurrently: ^10.0.3
   cz-git: ^1.13.1
+  dotenv: ^17.4.2
   eslint: ^10.6.0
   eslint-config-prettier: ^10.1.8
   eslint-plugin-import: ^2.32.0
@@ -39,10 +49,13 @@ catalog:
   eslint-plugin-turbo: ^2.10.0
   globals: ^17.7.0
   husky: ^9.1.7
+  js-yaml: ^5.2.0
   next: 16.2.9
   next-mdx-remote: ^5.0.0
+  pg: ^8.22.0
   pm2: ^7.0.3
   prettier: ^3.9.1
+  prisma: ^7.8.0
   react: 19.2.7
   react-dom: 19.2.7
   reflect-metadata: ^0.2.2
@@ -88,6 +101,21 @@ minimumReleaseAgeExclude:
   - '@tailwindcss/oxide@4.3.2'
   - '@tailwindcss/postcss@4.3.2'
   - tailwindcss@4.3.2
+  - '@commitlint/cli@21.2.0'
+  - '@commitlint/config-conventional@21.2.0'
+  - '@commitlint/config-validator@21.2.0'
+  - '@commitlint/ensure@21.2.0'
+  - '@commitlint/format@21.2.0'
+  - '@commitlint/is-ignored@21.2.0'
+  - '@commitlint/lint@21.2.0'
+  - '@commitlint/load@21.2.0'
+  - '@commitlint/message@21.2.0'
+  - '@commitlint/parse@21.2.0'
+  - '@commitlint/read@21.2.0'
+  - '@commitlint/resolve-extends@21.2.0'
+  - '@commitlint/rules@21.2.0'
+  - '@commitlint/top-level@21.2.0'
+  - '@commitlint/types@21.2.0'
 
 onlyBuiltDependencies:
   - esbuild

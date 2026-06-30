@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import { SiteHeader } from '@/components/site/header';
 import { SiteFooter } from '@/components/site/footer';
+import { Providers } from './providers';
 import { site } from '@/lib/site';
 import './globals.css';
 
@@ -63,9 +64,11 @@ export default function RootLayout({
         className="min-h-dvh bg-canvas text-fg antialiased"
         suppressHydrationWarning
       >
-        <SiteHeader />
-        <main>{children}</main>
-        <SiteFooter />
+        <Providers>
+          <SiteHeader />
+          <main>{children}</main>
+          <SiteFooter />
+        </Providers>
       </body>
     </html>
   );
