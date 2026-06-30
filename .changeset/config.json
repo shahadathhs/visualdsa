@@ -7,5 +7,20 @@
   "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": []
+  "ignore": [
+    "@visualdsa/api",
+    "@visualdsa/api-client",
+    "@visualdsa/api-spec",
+    "@visualdsa/algorithms",
+    "@visualdsa/config",
+    "@visualdsa/content",
+    "@visualdsa/db",
+    "@visualdsa/eslint",
+    "@visualdsa/python-examples",
+    "@visualdsa/types",
+    "@visualdsa/typescript",
+    "@visualdsa/ui",
+    "@visualdsa/utils",
+    "@visualdsa/visualizer"
+  ]
 }
