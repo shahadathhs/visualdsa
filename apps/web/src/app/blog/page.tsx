@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { BlogCard } from '@/components/blog/blog-card';
-import { BlogFeed } from '@/components/blog/blog-feed';
-import { featured, platforms } from '@/data/blog';
+import { PageHero } from '@/components/site/page-hero';
+import { getMediumPosts } from '@/lib/medium';
+import { platforms } from '@/data/blog';
 
 export const metadata: Metadata = {
   title: 'Blog',
@@ -10,90 +10,110 @@ export const metadata: Metadata = {
     'Writing on backend engineering, system design, and DevOps — by Shahadath Hossen Sajib, the builder of VisualDSA.',
 };
 
-export default function BlogPage() {
+export const revalidate = 86400; // refresh the feed once a day (ISR)
+
+export default async function BlogPage() {
+  const posts = await getMediumPosts();
+  const [latest, ...rest] = posts;
+
   return (
-    <div className="mx-auto max-w-6xl px-5 py-16">
-      <Link
-        href="/"
-        className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-fg"
+    <>
+      <PageHero
+        eyebrow="Blog"
+        title={<>Writing on backend, system design &amp; DevOps.</>}
+        subtitle={
+          <>
+            Articles on building scalable systems, getting them to production,
+            and the lessons learned along the way.
+          </>
+        }
       >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          className="h-4 w-4"
-          aria-hidden="true"
-        >
-          <path
-            d="M19 12H5M11 18l-6-6 6-6"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        Home
-      </Link>
-
-      <header className="mt-6 max-w-2xl">
-        <p className="font-mono text-xs uppercase tracking-wider text-emerald-400">
-          Blog
-        </p>
-        <h1 className="mt-2 text-4xl font-semibold tracking-tight">
-          Writing on backend, system design &amp; DevOps.
-        </h1>
-        <p className="mt-3 text-muted">
-          Articles on building scalable systems, getting them to production, and
-          the lessons learned along the way.
-        </p>
-      </header>
-
-      {/* platforms */}
-      <section className="mt-10 grid gap-3 sm:grid-cols-2">
-        {platforms.map((platform) => (
+        {latest ? (
+          <BlogCard post={latest} />
+        ) : (
           <a
-            key={platform.name}
-            href={platform.href}
+            href="https://medium.com/@shahadathhs"
             target="_blank"
             rel="noreferrer"
-            className="group flex items-center justify-between rounded-lg border border-line bg-surface p-5 transition-colors hover:border-emerald-500/40"
+            className="block rounded-lg border border-line bg-surface p-5 transition-colors hover:border-emerald-500/40"
           >
-            <div>
-              <h2 className="text-base font-medium">{platform.name}</h2>
-              <p className="mt-1 text-sm text-muted">{platform.description}</p>
-            </div>
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              className="h-4 w-4 shrink-0 text-muted/50 transition-colors group-hover:text-emerald-400"
-              aria-hidden="true"
-            >
-              <path
-                d="M7 17L17 7M17 7H8M17 7v9"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <p className="text-sm text-muted">
+              Latest articles load here from Medium.
+            </p>
+            <p className="mt-2 text-sm font-medium text-emerald-400">
+              Read on Medium →
+            </p>
           </a>
-        ))}
-      </section>
+        )}
+      </PageHero>
 
-      {/* featured local long-read */}
-      <section className="mt-12">
-        <div className="flex items-baseline gap-3">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted/70">
-            Featured
-          </h2>
-          <span className="h-px flex-1 bg-line" />
-        </div>
-        <div className="mt-4">
-          <BlogCard post={featured} />
-        </div>
-      </section>
+      <div className="mx-auto max-w-6xl px-5 py-16">
+        {/* platforms */}
+        <section className="grid gap-3 sm:grid-cols-2">
+          {platforms.map((platform) => (
+            <a
+              key={platform.name}
+              href={platform.href}
+              target="_blank"
+              rel="noreferrer"
+              className="group flex items-center justify-between rounded-lg border border-line bg-surface p-5 transition-colors hover:border-emerald-500/40"
+            >
+              <div>
+                <h2 className="text-base font-medium">{platform.name}</h2>
+                <p className="mt-1 text-sm text-muted">
+                  {platform.description}
+                </p>
+              </div>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                className="h-4 w-4 shrink-0 text-muted/50 transition-colors group-hover:text-emerald-400"
+                aria-hidden="true"
+              >
+                <path
+                  d="M7 17L17 7M17 7H8M17 7v9"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </a>
+          ))}
+        </section>
 
-      {/* live Medium feed (API + localStorage cache) */}
-      <BlogFeed />
-    </div>
+        {/* more articles */}
+        <section className="mt-12">
+          <div className="flex items-baseline gap-3">
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-muted/70">
+              More articles
+            </h2>
+            <span className="h-px flex-1 bg-line" />
+            <span className="text-xs text-muted/50">From Medium</span>
+          </div>
+
+          {rest.length > 0 ? (
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {rest.map((post) => (
+                <BlogCard key={post.href} post={post} />
+              ))}
+            </div>
+          ) : (
+            <p className="mt-4 rounded-md border border-line bg-surface px-4 py-3 text-sm text-muted">
+              No more articles to show right now. Read everything on{' '}
+              <a
+                href="https://medium.com/@shahadathhs"
+                target="_blank"
+                rel="noreferrer"
+                className="text-emerald-400 hover:underline"
+              >
+                Medium
+              </a>
+              .
+            </p>
+          )}
+        </section>
+      </div>
+    </>
   );
 }
