@@ -1,9 +1,25 @@
 # VisualDSA — Roadmap & TODO
 
 High-level roadmap. The full product spec lives in
-[`docs/deep-research-report.md`](./docs/deep-research-report.md).
+[`docs/deep-research-report.md`](./docs/deep-research-report.md); the live
+curriculum data is in
+[`apps/web/src/data/curriculum.ts`](./apps/web/src/data/curriculum.ts).
 
-## MVP
+## Done
+
+- [x] Marketing/site foundation — home (hero + animated demo, differentiators,
+      how-it-works), `/curriculum` + a placeholder page for each of the 25
+      phases, `/about`, and `/blog` (live Medium feed, ISR)
+- [x] Design system — dark-first, Tailwind v4 tokens, Inter + JetBrains Mono,
+      emerald accent
+- [x] Monorepo (pnpm + Turborepo) with shared packages scaffolded
+- [x] Docker Postgres + pgAdmin, PM2 prod flow, Makefile, `dev:stack`
+- [x] CI (lint/format/typecheck/build), Changesets, Dependabot, Husky
+      pre-push gate
+- [x] Community files — LICENSE, CODE_OF_CONDUCT, CONTRIBUTING, CODEOWNERS,
+      issue/PR templates
+
+## MVP (next)
 
 - [ ] Core visualizer engine (SVG renderers + play/pause/step/speed controls)
 - [ ] Algorithm step generators (`@visualdsa/algorithms` → `Step[]`)
@@ -14,21 +30,47 @@ High-level roadmap. The full product spec lives in
 - [ ] User accounts (bookmarks, progress, completion)
 - [ ] Admin CMS for content
 
-## Curriculum Phases
+## Curriculum — 25 phases · 5 tracks
 
-- [ ] **Phase 0 — Foundations:** what is DSA, Big-O, recursion
-- [ ] **Phase 1 — Arrays:** linear/binary search, prefix sum, two pointers, sliding window
-- [ ] **Phase 2 — Strings:** KMP, palindrome, Rabin-Karp, trie basics
-- [ ] **Phase 3 — Linked Lists:** reverse, cycle detection, merge
-- [ ] **Phase 4 — Stack:** balanced parentheses, next greater element
-- [ ] **Phase 5 — Queue:** BFS, sliding window max, scheduler
-- [ ] **Phase 6 — Hash Tables:** two-sum, frequency counting, anagrams
-- [ ] **Phase 7 — Trees & BST:** traversals, insert/search, LCA
-- [ ] **Phase 8 — Heaps:** insert/extract, heap sort
-- [ ] **Phase 9 — Trie:** insert/search, autocomplete
-- [ ] **Phase 10 — Graphs:** DFS/BFS, Dijkstra, topological sort, union-find
-- [ ] **Phase 11 — Union-Find:** connectivity, path compression
-- [ ] **Phase 12 — Dynamic Programming:** memo vs tabulation, knapsack, LCS
+### Foundations
+
+- [ ] 00 — Programming Refresher & Iteration (loops, iteration patterns, functions)
+- [ ] 01 — Memory & Recursion (call stack, recursion, iteration ↔ recursion)
+- [ ] 02 — Analysing Algorithms (Big-O, growth rates, time vs space)
+
+### Data Structures
+
+- [ ] 03 — Arrays & Memory (prefix sums, difference arrays, rotations)
+- [ ] 04 — Linked Lists (reverse, cycle detection, merge)
+- [ ] 05 — Stacks (balanced parens, next greater, largest rectangle)
+- [ ] 06 — Queues & Deques (circular, deque, priority queue, sliding max)
+- [ ] 07 — Hash Tables (collisions, load factor, two-sum, rolling hash)
+- [ ] 08 — Trees (traversals, BST, balanced trees, LCA)
+- [ ] 09 — Heaps & Priority Queues (heapify, heap sort, K-th, merge K)
+- [ ] 10 — Tries (insert/search, autocomplete, word search)
+- [ ] 11 — Union-Find (union by rank, path compression, connectivity)
+
+### Algorithms
+
+- [ ] 12 — Searching (binary search, bounds, search-on-answer, rotated arrays)
+- [ ] 13 — Sorting (bubble → merge/quick, heap, counting/radix)
+- [ ] 14 — Strings & Pattern Matching (Rabin-Karp, KMP, Z-algorithm, Manacher)
+- [ ] 15 — Greedy (activity selection, fractional knapsack, Huffman)
+- [ ] 16 — Divide & Conquer (merge/quick, closest pair, Master Theorem)
+- [ ] 17 — Backtracking (permutations, N-Queens, Sudoku, subset sum)
+- [ ] 18 — Dynamic Programming (memo/tabulation, knapsack, LCS, LIS, edit distance)
+- [ ] 19 — Graphs (BFS, DFS, cycle detection, topological sort, bipartite)
+- [ ] 20 — Graph Algorithms (Dijkstra, Bellman-Ford, Floyd-Warshall, MST, SCC)
+
+### Techniques & Patterns
+
+- [ ] 21 — Problem-Solving Patterns (two pointers, sliding window, fast/slow, intervals)
+- [ ] 22 — Bit Manipulation & Math (bit ops, primes/sieve, GCD, modular arithmetic)
+
+### Advanced
+
+- [ ] 23 — Advanced Data Structures (segment tree, Fenwick, sparse table)
+- [ ] 24 — Advanced DP (on grids/trees, digit, bitmask, interval, game theory)
 
 ## Platform / DX
 
@@ -36,7 +78,7 @@ High-level roadmap. The full product spec lives in
 - [ ] MDX lessons in `@visualdsa/content`
 - [ ] Shiki syntax highlighting for Python examples
 - [ ] Keyboard shortcuts for playback (Space, arrows)
-- [ ] Dark mode / theming
+- [ ] Manual light/dark theme toggle
 - [ ] i18n (Chinese / Indonesian) — later
 - [ ] Lighthouse ≥ 90 (performance / accessibility)
 
@@ -44,7 +86,7 @@ High-level roadmap. The full product spec lives in
 
 - [x] Monorepo (pnpm + Turborepo)
 - [x] Docker Postgres + pgAdmin
-- [x] PM2 prod flow, Makefile, dev:stack
+- [x] PM2 prod flow, Makefile, `dev:stack`
 - [x] CI (lint/format/typecheck/build)
 - [x] Changesets (versioning + changelog)
 - [ ] Test runner + unit tests on algorithm generators
